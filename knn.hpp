@@ -9,6 +9,7 @@ class DataPoint
     vector<float> fields;
     int size;
     string class_name;
+    pair<vector<int>, vector<double>> predicted_classes;
 
     DataPoint(void) {
         size = 4;

@@ -68,17 +68,14 @@ pair<vector<DataPoint>, vector<DataPoint>> splitDataset(vector<DataPoint> inputD
     return make_pair(training_set, test_set);
 }
 
-float calculateEuclideanDistance(const DataPoint &testItem, const DataPoint &trainDataItem)
+float calculateEuclideanDistance(const DataPoint &testItem, const DataPoint trainDataItem)
 {
     float distance = 0.0;
-    //double tmp_total = 0.0;
-    for (int i = 0; i < trainDataItem.size; i++)
+    for (int i = 0; i < 4; i++)
     {
         float diff = trainDataItem.fields[i] - testItem.fields[i];
         distance += diff * diff;
-        //tmp_total += (pow(trainDataItem.fields[i] - testItem.fields[i], 2));
     }
-    //distance = sqrt(tmp_total);
     return sqrtf(distance);
 }
 
@@ -108,7 +105,8 @@ void updateTopKIndicesDistances(int testDpId, float testDpCalcDistance, vector<i
     }
 }
 
-pair<vector<int>, vector<float>> getTopKNeighbours(DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k) {
+pair<vector<int>, vector<float>> getTopKNeighbours(vector<float> &lstDistances, DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k)
+{
     // Vector to store the highest K distances
     vector<float> topKDistances(k);
     // Vector to store the indices of the highest K distances.
@@ -121,35 +119,103 @@ pair<vector<int>, vector<float>> getTopKNeighbours(DataPoint &testDp, const vect
     // Get the distance bw given data point and train dataset
     for (int i = 0; i < trainDataLength; i++)
     {
-        float distance = 0.0;
-        distance = calculateEuclideanDistance(testDp, trainData[i]);
+        // float distance = 0.0;
+        // distance = calculateEuclideanDistance(testDp, trainData[i]);
         // Update the "topKIndices" and "topKDistances" vectors if the calculated "distance" fits the top K ranking of distances
-        updateTopKIndicesDistances(i, distance, topKIndices, topKDistances, k);
+        updateTopKIndicesDistances(i, lstDistances[i], topKIndices, topKDistances, k);
     }
     return make_pair(topKIndices, topKDistances);
 }
 
-void run_knn(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
+void getAllQueryPointDistances(vector<float> &lstDistances, DataPoint &testItem, const vector<DataPoint> &trainData, int trainDataLength)
 {
-    // Test every Data point in the test dataset, and predict its class
+    #pragma omp parallel
+    {
+        #pragma omp for
+        for (int i = 0; i < trainDataLength; i++)
+        {
+            lstDistances[i] = calculateEuclideanDistance(testItem, trainData[i]);
+            // float distance = 0.0;
+            // vector<float> trainItemFields = trainData[i].fields;
+            // for (int j = 0; j < 4; j++)
+            // {
+            //     float diff = trainItemFields[j] - testItem.fields[j];
+            //     distance += diff * diff;
+            // }
+            // lstDistances[i] = sqrtf(distance);
+        }
+    }
+}
+
+// void run_knn(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
+// {
+//     // Test every Data point in the test dataset, and predict its class
+//     for (int i = 0; i < testSetLength; i++)
+//     {
+//         testSet[i].predicted_classes = getTopKNeighbours(testSet[i], trainSet, trainSetLength, k);
+//     }
+// }
+pair<vector<int>, vector<float>> getTopKNeighbours2(vector<float> &lstDistances, DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k)
+{
+    vector<float> topKDistances(k);
+    vector<int> topKIndices(k);
+    for (int i = 0; i < k; i++)
+    {
+        topKIndices[i] = -1;
+    }
+    // Get the distance bw given data point and train dataset
+    for (int i = 0; i < trainDataLength; i++)
+    {
+        // Update the "topKIndices" and "topKDistances" vectors if the calculated "distance" fits the top K ranking of distances
+        updateTopKIndicesDistances(i, lstDistances[i], topKIndices, topKDistances, k);
+    }
+    return make_pair(topKIndices, topKDistances);
+}
+
+void getAllEuclideanDistances(vector<vector<float>> &lstDistances, vector<DataPoint> &testData, int testDataLength, const vector<DataPoint> &trainData, int trainDataLength)
+{
+    #pragma omp parallel
+    {
+        #pragma omp for
+        for (int i = 0; i < testDataLength; i++)
+        {
+            // DataPoint *testItem = &(testData[i]);
+            // vector<float> tmpDistances(trainDataLength);
+            for (int j = 0; j < trainDataLength; j++)
+            {
+                lstDistances[i][j] = calculateEuclideanDistance(testData[i], trainData[j]);
+                // float distance = 0.0;
+                // vector<float> trainItemFields = trainData[j].fields;
+                // for (int k = 0; k < 4; k++)
+                // {
+                //     float diff = trainItemFields[k] - testItem->fields[k];
+                //     distance += diff * diff;
+                // }
+                // tmpDistances[j] = sqrtf(distance);
+            }
+            // lstDistances[i] = tmpDistances;
+        }
+    }
+}
+
+void run_knn_omp2(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
+{
+    vector<vector<float>> lstDistances(testSetLength, vector<float>(trainSetLength));
+    getAllEuclideanDistances(lstDistances, testSet, testSetLength, trainSet, trainSetLength);
     for (int i = 0; i < testSetLength; i++)
     {
-        testSet[i].predicted_classes = getTopKNeighbours(testSet[i], trainSet, trainSetLength, k);
+        testSet[i].predicted_classes = getTopKNeighbours2(lstDistances[i], testSet[i], trainSet, trainSetLength, k);
     }
 }
 
 void run_knn_omp(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
 {
     // Test every Data point in the test dataset, and predict its class
-    #pragma omp parallel
+    for (int i = 0; i < testSetLength; i++)
     {
-        #pragma omp for
-        for (int i = 0; i < testSetLength; i++)
-        {
-            pair<vector<int>, vector<float>> lstPredictedClasses;
-            lstPredictedClasses = getTopKNeighbours(testSet[i], trainSet, trainSetLength, k);
-            testSet[i].predicted_classes = lstPredictedClasses;
-        }
+        vector<float> lstDistances(trainSetLength);
+        getAllQueryPointDistances(lstDistances, testSet[i], trainSet, trainSetLength);
+        testSet[i].predicted_classes = getTopKNeighbours(lstDistances, testSet[i], trainSet, trainSetLength, k);
     }
 }
 
@@ -213,74 +279,82 @@ int main(int argc, char* argv[])
     // usage
     // CLI: ./knn -d ..data/iris.data
     // vector<string> data_sources{"iris.data", "iris_extended.data"};
-    // vector<int> k_sizes{5,7,9};
-    // vector<double> split_sizes{0.6, 0.7, 0.8};
+    vector<string> data_sources{"../data/iris.data", "../data/iris_extended.data"};
+    //vector<int> k_sizes{5,7,9};
+    vector<int> k_sizes{5};
+    //vector<double> split_sizes{0.6, 0.7, 0.8};
+    vector<double> split_sizes{0.9, 0.95};
     
-    // for (string data_path : data_sources)
-    // {
-    //     for (int k : k_sizes)
-    //     {
-    //         for (double split_size : split_sizes)
-    //         {
-    //             printf("Working on KNN | dataset: %s | k: %d | split: %.1f\n", data_path.c_str(), k, split_size);
-    //             // 1. Read iris dataset
-    //             vector<DataPoint> dataset = readDataset(data_path);
-    //             cout << "Dataset size: " << dataset.size() << endl;
-    //             //printDataset(dataset);
-    //             // 2. Shuffle iris dataset
-    //             shuffleDataset(dataset);
-    //             //printDataset(dataset);
-    //             // 3. Split data into training and testing set
-    //             pair<vector<DataPoint>, vector<DataPoint>> splitted_set = splitDataset(dataset, split_size);
-    //             dataset.clear();
-    //             printf("Training set size: %d | Test set size: %d\n", splitted_set.first.size(), splitted_set.second.size());
-    //             // 4. Execute KNN logic (Here we'll measure the elapsed time)
-    //             vector<DataPoint> trainData = splitted_set.first;
-    //             vector<DataPoint> testData = splitted_set.second;
-    //             splitted_set.first.clear();
-    //             splitted_set.second.clear();
-    //             chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
-    //             run_knn_omp(trainData, trainData.size(), testData, testData.size(), k);
-    //             chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
-    //             chrono::duration<double> elapsed_time = end_time - start_time;
-    //             printf("Elapsed time for KNN is: %6.4f (ms) \n", elapsed_time*1000.0);
-    //             // 5. Measure accuracy of input K
-    //             get_knn_accuracy(trainData, testData, k);
-    //             trainData.clear();
-    //             testData.clear();
-    //         }
-    //     }
-    // }
+    for (string data_path : data_sources)
+    {
+        for (int k : k_sizes)
+        {
+            for (double split_size : split_sizes)
+            {
+                printf("Working on KNN | dataset: %s | k: %d | split: %.2f\n", data_path.c_str(), k, split_size);
+                // 1. Read iris dataset
+                // --------------------------------
+                vector<DataPoint> dataset = readDataset(data_path);
+                cout << "Dataset size: " << dataset.size() << endl;
+                //printDataset(dataset);
+                // 2. Shuffle iris dataset
+                // --------------------------------
+                shuffleDataset(dataset);
+                //printDataset(dataset);
+                // 3. Split data into training and testing set
+                // --------------------------------
+                pair<vector<DataPoint>, vector<DataPoint>> splitted_set = splitDataset(dataset, split_size);
+                dataset.clear();
+                printf("Training set size: %ld | Test set size: %ld\n", splitted_set.first.size(), splitted_set.second.size());
+                // 4. Execute KNN logic (Here we'll measure the elapsed time)
+                // --------------------------------
+                vector<DataPoint> trainData = splitted_set.first;
+                vector<DataPoint> testData = splitted_set.second;
+                splitted_set.first.clear();
+                splitted_set.second.clear();
+                chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
+                run_knn_omp2(trainData, trainData.size(), testData, testData.size(), k);
+                chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
+                chrono::duration<double> elapsed_time = end_time - start_time;
+                printf("Elapsed time for KNN is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", elapsed_time.count(), elapsed_time.count()*1000.0, elapsed_time.count()*1000000, elapsed_time.count()*1000000000);
+                // 5. Measure accuracy of input K
+                // --------------------------------
+                get_knn_accuracy(trainData, testData, k);
+                trainData.clear();
+                testData.clear();
+            }
+        }
+    }
 
-    string dataset_path = "../data/iris.data";
-    int k = 7;
-    float split_size = 0.7;
-    printf("Working on KNN | dataset: %s | k: %d | split: %.1f\n", dataset_path.c_str(), k, split_size);
-    // 1. Read iris dataset
-    // --------------------------------
-    vector<DataPoint> dataset = readDataset(dataset_path);
-    cout << "Dataset size: " << dataset.size() << endl;
-    //printDataset(dataset);
-    // 3. Shuffle iris dataset
-    // --------------------------------
-    cout << "Shuffling the Iris dataset..." << endl;
-    shuffleDataset(dataset);
-    //printDataset(dataset);
-    // 4. Split data into training and testing set
-    // --------------------------------
-    pair<vector<DataPoint>, vector<DataPoint>> splitted_set = splitDataset(dataset, split_size);
-    printf("Training set size: %ld | Test set size: %ld\n", splitted_set.first.size(), splitted_set.second.size());
-    // 5. Execute KNN logic (Here we'll measure the elapsed time)
-    // --------------------------------
-    vector<DataPoint> trainData = splitted_set.first;
-    vector<DataPoint> testData = splitted_set.second;
-    chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
-    run_knn_omp(trainData, trainData.size(), testData, testData.size(), k);
-    chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed_time = end_time - start_time;
-    printf("Elapsed time for KNN is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", elapsed_time.count(), elapsed_time.count()*1000.0, elapsed_time.count()*1000000, elapsed_time.count()*1000000000);
-    // 6. Measure accuracy of input K
-    // --------------------------------
-    get_knn_accuracy(trainData, testData, k);
+    // string dataset_path = "../data/iris.data";
+    // int k = 7;
+    // float split_size = 0.7;
+    // printf("Working on KNN | dataset: %s | k: %d | split: %.1f\n", dataset_path.c_str(), k, split_size);
+    // // 1. Read iris dataset
+    // // --------------------------------
+    // vector<DataPoint> dataset = readDataset(dataset_path);
+    // cout << "Dataset size: " << dataset.size() << endl;
+    // //printDataset(dataset);
+    // // 3. Shuffle iris dataset
+    // // --------------------------------
+    // cout << "Shuffling the Iris dataset..." << endl;
+    // shuffleDataset(dataset);
+    // //printDataset(dataset);
+    // // 4. Split data into training and testing set
+    // // --------------------------------
+    // pair<vector<DataPoint>, vector<DataPoint>> splitted_set = splitDataset(dataset, split_size);
+    // printf("Training set size: %ld | Test set size: %ld\n", splitted_set.first.size(), splitted_set.second.size());
+    // // 5. Execute KNN logic (Here we'll measure the elapsed time)
+    // // --------------------------------
+    // vector<DataPoint> trainData = splitted_set.first;
+    // vector<DataPoint> testData = splitted_set.second;
+    // chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
+    // run_knn_omp2(trainData, trainData.size(), testData, testData.size(), k);
+    // chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
+    // chrono::duration<double> elapsed_time = end_time - start_time;
+    // printf("Elapsed time for KNN is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", elapsed_time.count(), elapsed_time.count()*1000.0, elapsed_time.count()*1000000, elapsed_time.count()*1000000000);
+    // // 6. Measure accuracy of input K
+    // // --------------------------------
+    // get_knn_accuracy(trainData, testData, k);
     return 0;
 }

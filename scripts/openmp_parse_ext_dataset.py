@@ -2,6 +2,8 @@
 This script parses the "iris_extended.csv" file, filters it by specific columns and generates a .data file.
 Compared to the widely-known Iris dataset, the extended version (from Kaggle) has 1200 rows.
 
+The output file "data/iris_extended.data" is used by our "knn.cpp" file when running the knn algorithm.
+
 Extended Iris dataset: https://www.kaggle.com/datasets/samybaladram/iris-dataset-extended/data
 '''
 

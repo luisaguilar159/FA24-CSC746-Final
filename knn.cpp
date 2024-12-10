@@ -5,22 +5,20 @@
 #include <algorithm>
 #include <map>
 #include <chrono>
+#include <cstring>
 #include <omp.h>
-#include "knn.hpp" // For Data class
+#include "knn.hpp" // For DataPoint class
 
 vector<DataPoint> readDataset(const string &path) 
 {
     vector<DataPoint> data;
     ifstream inputFileDataset(path);
     string data_line;
-
     if (inputFileDataset.is_open()) {
         while (getline(inputFileDataset, data_line)) {
             stringstream input_line(data_line);
             string segment;
             DataPoint dp;
-            // float *fields = new float[4];
-            // dp.fields = fields;
             int idx = 0;
             while (getline(input_line, segment, ',')) {
                 // Add class name to DataPoint instance
@@ -38,7 +36,6 @@ vector<DataPoint> readDataset(const string &path)
     } else {
         cerr << "Unable to open file\n";
     }
-
     return data;
 }
 
@@ -105,47 +102,47 @@ void updateTopKIndicesDistances(int testDpId, float testDpCalcDistance, vector<i
     }
 }
 
-pair<vector<int>, vector<float>> getTopKNeighbours(vector<float> &lstDistances, DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k)
-{
-    // Vector to store the highest K distances
-    vector<float> topKDistances(k);
-    // Vector to store the indices of the highest K distances.
-    vector<int> topKIndices(k);
-    // Fill the array with -1
-    for (int i = 0; i < k; i++)
-    {
-        topKIndices[i] = -1;
-    }
-    // Get the distance bw given data point and train dataset
-    for (int i = 0; i < trainDataLength; i++)
-    {
-        // float distance = 0.0;
-        // distance = calculateEuclideanDistance(testDp, trainData[i]);
-        // Update the "topKIndices" and "topKDistances" vectors if the calculated "distance" fits the top K ranking of distances
-        updateTopKIndicesDistances(i, lstDistances[i], topKIndices, topKDistances, k);
-    }
-    return make_pair(topKIndices, topKDistances);
-}
+// pair<vector<int>, vector<float>> getTopKNeighbours(vector<float> &lstDistances, DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k)
+// {
+//     // Vector to store the highest K distances
+//     vector<float> topKDistances(k);
+//     // Vector to store the indices of the highest K distances.
+//     vector<int> topKIndices(k);
+//     // Fill the array with -1
+//     for (int i = 0; i < k; i++)
+//     {
+//         topKIndices[i] = -1;
+//     }
+//     // Get the distance bw given data point and train dataset
+//     for (int i = 0; i < trainDataLength; i++)
+//     {
+//         // float distance = 0.0;
+//         // distance = calculateEuclideanDistance(testDp, trainData[i]);
+//         // Update the "topKIndices" and "topKDistances" vectors if the calculated "distance" fits the top K ranking of distances
+//         updateTopKIndicesDistances(i, lstDistances[i], topKIndices, topKDistances, k);
+//     }
+//     return make_pair(topKIndices, topKDistances);
+// }
 
-void getAllQueryPointDistances(vector<float> &lstDistances, DataPoint &testItem, const vector<DataPoint> &trainData, int trainDataLength)
-{
-    #pragma omp parallel
-    {
-        #pragma omp for
-        for (int i = 0; i < trainDataLength; i++)
-        {
-            lstDistances[i] = calculateEuclideanDistance(testItem, trainData[i]);
-            // float distance = 0.0;
-            // vector<float> trainItemFields = trainData[i].fields;
-            // for (int j = 0; j < 4; j++)
-            // {
-            //     float diff = trainItemFields[j] - testItem.fields[j];
-            //     distance += diff * diff;
-            // }
-            // lstDistances[i] = sqrtf(distance);
-        }
-    }
-}
+// void getAllQueryPointDistances(vector<float> &lstDistances, DataPoint &testItem, const vector<DataPoint> &trainData, int trainDataLength)
+// {
+//     #pragma omp parallel
+//     {
+//         #pragma omp for
+//         for (int i = 0; i < trainDataLength; i++)
+//         {
+//             lstDistances[i] = calculateEuclideanDistance(testItem, trainData[i]);
+//             // float distance = 0.0;
+//             // vector<float> trainItemFields = trainData[i].fields;
+//             // for (int j = 0; j < 4; j++)
+//             // {
+//             //     float diff = trainItemFields[j] - testItem.fields[j];
+//             //     distance += diff * diff;
+//             // }
+//             // lstDistances[i] = sqrtf(distance);
+//         }
+//     }
+// }
 
 // void run_knn(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
 // {
@@ -155,7 +152,7 @@ void getAllQueryPointDistances(vector<float> &lstDistances, DataPoint &testItem,
 //         testSet[i].predicted_classes = getTopKNeighbours(testSet[i], trainSet, trainSetLength, k);
 //     }
 // }
-pair<vector<int>, vector<float>> getTopKNeighbours2(vector<float> &lstDistances, DataPoint &testDp, const vector<DataPoint> &trainData, int trainDataLength, int k)
+pair<vector<int>, vector<float>> getTopKNeighbours2(const float* lstDistances, const vector<DataPoint> &trainData, int trainDataLength, int k)
 {
     vector<float> topKDistances(k);
     vector<int> topKIndices(k);
@@ -172,7 +169,7 @@ pair<vector<int>, vector<float>> getTopKNeighbours2(vector<float> &lstDistances,
     return make_pair(topKIndices, topKDistances);
 }
 
-void getAllEuclideanDistances(vector<vector<float>> &lstDistances, vector<DataPoint> &testData, int testDataLength, const vector<DataPoint> &trainData, int trainDataLength)
+void getAllEuclideanDistances(vector<float> &lstDistances, vector<DataPoint> &testData, int testDataLength, const vector<DataPoint> &trainData, int trainDataLength)
 {
     #pragma omp parallel
     {
@@ -183,7 +180,8 @@ void getAllEuclideanDistances(vector<vector<float>> &lstDistances, vector<DataPo
             // vector<float> tmpDistances(trainDataLength);
             for (int j = 0; j < trainDataLength; j++)
             {
-                lstDistances[i][j] = calculateEuclideanDistance(testData[i], trainData[j]);
+                lstDistances[i * trainDataLength + j] = calculateEuclideanDistance(testData[i], trainData[j]);
+                //lstDistances[i][j] = calculateEuclideanDistance(testData[i], trainData[j]);
                 // float distance = 0.0;
                 // vector<float> trainItemFields = trainData[j].fields;
                 // for (int k = 0; k < 4; k++)
@@ -198,26 +196,35 @@ void getAllEuclideanDistances(vector<vector<float>> &lstDistances, vector<DataPo
     }
 }
 
-void run_knn_omp2(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
+void run_knn_omp(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k, chrono::duration<double> &euclidean_time) 
 {
-    vector<vector<float>> lstDistances(testSetLength, vector<float>(trainSetLength));
+    //vector<vector<float>> lstDistances(testSetLength, vector<float>(trainSetLength));
+    vector<float> lstDistances(testSetLength*trainSetLength);
+    chrono::time_point<chrono::high_resolution_clock> euclidean_start_time = chrono::high_resolution_clock::now();
     getAllEuclideanDistances(lstDistances, testSet, testSetLength, trainSet, trainSetLength);
-    for (int i = 0; i < testSetLength; i++)
+    chrono::time_point<chrono::high_resolution_clock> euclidean_end_time = chrono::high_resolution_clock::now();
+    euclidean_time = euclidean_end_time - euclidean_start_time;
+    for (int i = 0; i < testSetLength; i++) 
     {
-        testSet[i].predicted_classes = getTopKNeighbours2(lstDistances[i], testSet[i], trainSet, trainSetLength, k);
+        //testSet[i].predicted_classes = getTopKNeighbours2(lstDistances[i], testSet[i], trainSet, trainSetLength, k);
+        float* bufDistances = new float[trainSetLength];
+        size_t idxDistVector = i * trainSetLength;
+        memcpy(bufDistances, lstDistances.data() + idxDistVector, sizeof(float) * trainSetLength);
+        testSet[i].predicted_classes = getTopKNeighbours2(bufDistances, trainSet, trainSetLength, k);
+        delete[] bufDistances;
     }
 }
 
-void run_knn_omp(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
-{
-    // Test every Data point in the test dataset, and predict its class
-    for (int i = 0; i < testSetLength; i++)
-    {
-        vector<float> lstDistances(trainSetLength);
-        getAllQueryPointDistances(lstDistances, testSet[i], trainSet, trainSetLength);
-        testSet[i].predicted_classes = getTopKNeighbours(lstDistances, testSet[i], trainSet, trainSetLength, k);
-    }
-}
+// void run_knn_omp(vector<DataPoint> &trainSet, int trainSetLength, vector<DataPoint> &testSet, int testSetLength, int k)
+// {
+//     // Test every Data point in the test dataset, and predict its class
+//     for (int i = 0; i < testSetLength; i++)
+//     {
+//         vector<float> lstDistances(trainSetLength);
+//         getAllQueryPointDistances(lstDistances, testSet[i], trainSet, trainSetLength);
+//         testSet[i].predicted_classes = getTopKNeighbours(lstDistances, testSet[i], trainSet, trainSetLength, k);
+//     }
+// }
 
 string getPredictedClass(vector<int> topKIndices, vector<float> topKDistances, vector<DataPoint> trainData, int k)
 {
@@ -276,14 +283,11 @@ void printDataset(vector<DataPoint> &inputData)
 
 int main(int argc, char* argv[])
 {
-    // usage
-    // CLI: ./knn -d ..data/iris.data
-    // vector<string> data_sources{"iris.data", "iris_extended.data"};
     vector<string> data_sources{"../data/iris.data", "../data/iris_extended.data"};
     //vector<int> k_sizes{5,7,9};
     vector<int> k_sizes{5};
-    //vector<double> split_sizes{0.6, 0.7, 0.8};
-    vector<double> split_sizes{0.9, 0.95};
+    vector<double> split_sizes{0.9, 0.8, 0.7, 0.6, 0.5};
+    //vector<double> split_sizes{0.5, 0.6};
     
     for (string data_path : data_sources)
     {
@@ -312,11 +316,13 @@ int main(int argc, char* argv[])
                 vector<DataPoint> testData = splitted_set.second;
                 splitted_set.first.clear();
                 splitted_set.second.clear();
+                chrono::duration<double> euclidean_elapsed_time;
                 chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
-                run_knn_omp2(trainData, trainData.size(), testData, testData.size(), k);
+                run_knn_omp(trainData, trainData.size(), testData, testData.size(), k, euclidean_elapsed_time);
                 chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
                 chrono::duration<double> elapsed_time = end_time - start_time;
                 printf("Elapsed time for KNN is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", elapsed_time.count(), elapsed_time.count()*1000.0, elapsed_time.count()*1000000, elapsed_time.count()*1000000000);
+                printf("Elapsed time for Euclidean calc is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", euclidean_elapsed_time.count(), euclidean_elapsed_time.count()*1000.0, euclidean_elapsed_time.count()*1000000, euclidean_elapsed_time.count()*1000000000);
                 // 5. Measure accuracy of input K
                 // --------------------------------
                 get_knn_accuracy(trainData, testData, k);
@@ -349,7 +355,7 @@ int main(int argc, char* argv[])
     // vector<DataPoint> trainData = splitted_set.first;
     // vector<DataPoint> testData = splitted_set.second;
     // chrono::time_point<chrono::high_resolution_clock> start_time = chrono::high_resolution_clock::now();
-    // run_knn_omp2(trainData, trainData.size(), testData, testData.size(), k);
+    // run_knn_omp(trainData, trainData.size(), testData, testData.size(), k);
     // chrono::time_point<chrono::high_resolution_clock> end_time = chrono::high_resolution_clock::now();
     // chrono::duration<double> elapsed_time = end_time - start_time;
     // printf("Elapsed time for KNN is: %lf (sec) or %6.4f (millisec) or %6.4f (microsec) or %6.4f (nanosec) \n", elapsed_time.count(), elapsed_time.count()*1000.0, elapsed_time.count()*1000000, elapsed_time.count()*1000000000);

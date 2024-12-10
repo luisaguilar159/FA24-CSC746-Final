@@ -34,3 +34,4 @@
 # Build files and directories
 .vscode/
 build/
+.DS_Store

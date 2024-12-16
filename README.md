@@ -1,8 +1,8 @@
 # Final project for CSC746-HPC
 
-Title: Parallelization of the K-nearest neighbors (KNN) algorithm using OpenMP
-Author: Luis Aguilar
-Term: Fall 2024
+- Title: Parallelization of the K-nearest neighbors (KNN) algorithm using OpenMP
+- Author: Luis Aguilar
+- Term: Fall 2024
 
 This directory contains a code harness to run a parallelized implementation of the K-nearest neighbors (KNN) algorithm.
 
@@ -80,4 +80,4 @@ For example, the below command executes the KNN algorithm by sending the `input/
 mlpack_knn --k 5 --reference_file input/iris09.csv --neighbors_file output/neighbors09.csv --distances_file output/distances09.csv --verbose
 ```
 
-The example output of the KNN method of mlpack can be found in the `Output_mlpack_KNN_algorithm.txt` file in the `data/mlpack_data`.
+The example output of the KNN method of mlpack can be found in the `data/mlpack_data/Output_mlpack_KNN_algorithm.txt` file in the `data/mlpack_data`. This file has the tests that we ran to retrieve the runtime of the vendor implementation.

@@ -1,0 +1,475 @@
+Output of mlpack KNN algorithm - 14.12.2024
+
+Small Iris dataset of 150 rows (K=5)
+
+--------------------------------------------------------------------------------
+Split size: 0.9
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?5 ──────────────────────────────────────────── ✔  19:21:37  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris09.csv --neighbors_file output/neighbors09.csv --distances_file output/distances09.csv --verbose           ─╯
+[INFO ] Using reference data from Loading 'input/iris09.csv' as CSV data.  Size is 4 x 135.
+[INFO ] 'input/iris09.csv' (135x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 720 node combinations were scored.
+[INFO ] 4722 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances09.csv'.
+[INFO ] Saving CSV data to 'output/neighbors09.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances09.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors09.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris09.csv' (135x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.000147s
+[INFO ]   loading_data: 0.000221s
+[INFO ]   saving_data: 0.000490s
+[INFO ]   total_time: 0.000701s
+[INFO ]   tree_building: 0.000055s
+
+--------------------------------------------------------------------------------
+Split size: 0.8
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:46:45  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris08.csv --neighbors_file output/neighbors08.csv --distances_file output/distances08.csv --verbose           ─╯
+[INFO ] Using reference data from Loading 'input/iris08.csv' as CSV data.  Size is 4 x 120.
+[INFO ] 'input/iris08.csv' (120x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 499 node combinations were scored.
+[INFO ] 3909 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances08.csv'.
+[INFO ] Saving CSV data to 'output/neighbors08.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances08.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors08.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris08.csv' (120x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.000122s
+[INFO ]   loading_data: 0.000266s
+[INFO ]   saving_data: 0.000510s
+[INFO ]   total_time: 0.000472s
+[INFO ]   tree_building: 0.000023s
+
+--------------------------------------------------------------------------------
+Split size: 0.7
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:46:58  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris07.csv --neighbors_file output/neighbors07.csv --distances_file output/distances07.csv --verbose           ─╯
+[INFO ] Using reference data from Loading 'input/iris07.csv' as CSV data.  Size is 4 x 105.
+[INFO ] 'input/iris07.csv' (105x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 463 node combinations were scored.
+[INFO ] 3309 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances07.csv'.
+[INFO ] Saving CSV data to 'output/neighbors07.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances07.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors07.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris07.csv' (105x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.000122s
+[INFO ]   loading_data: 0.000349s
+[INFO ]   saving_data: 0.000529s
+[INFO ]   total_time: 0.000569s
+[INFO ]   tree_building: 0.000034s
+
+
+--------------------------------------------------------------------------------
+Split size: 0.6
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:05  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris06.csv --neighbors_file output/neighbors06.csv --distances_file output/distances06.csv --verbose           ─╯
+[INFO ] Using reference data from Loading 'input/iris06.csv' as CSV data.  Size is 4 x 90.
+[INFO ] 'input/iris06.csv' (90x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 303 node combinations were scored.
+[INFO ] 2648 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances06.csv'.
+[INFO ] Saving CSV data to 'output/neighbors06.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances06.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors06.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris06.csv' (90x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.000096s
+[INFO ]   loading_data: 0.000316s
+[INFO ]   saving_data: 0.000498s
+[INFO ]   total_time: 0.000507s
+[INFO ]   tree_building: 0.000011s
+
+
+--------------------------------------------------------------------------------
+Split size: 0.5
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:11  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris05.csv --neighbors_file output/neighbors05.csv --distances_file output/distances05.csv --verbose           ─╯
+[INFO ] Using reference data from Loading 'input/iris05.csv' as CSV data.  Size is 4 x 75.
+[INFO ] 'input/iris05.csv' (75x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 221 node combinations were scored.
+[INFO ] 2032 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances05.csv'.
+[INFO ] Saving CSV data to 'output/neighbors05.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances05.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors05.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris05.csv' (75x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.000091s
+[INFO ]   loading_data: 0.000225s
+[INFO ]   saving_data: 0.000382s
+[INFO ]   total_time: 0.000398s
+[INFO ]   tree_building: 0.000009s
+
+
+
+
+
+================================================================================
+Large Iris dataset of 1200 rows (K=5)
+================================================================================
+
+
+--------------------------------------------------------------------------------
+Split size: 0.9
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:16  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris_ext09.csv --neighbors_file output/neighbors_ext09.csv --distances_file output/distances_ext09.csv --verbose
+[INFO ] Using reference data from Loading 'input/iris_ext09.csv' as CSV data.  Size is 4 x 1080.
+[INFO ] 'input/iris_ext09.csv' (1080x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 28507 node combinations were scored.
+[INFO ] 93065 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances_ext09.csv'.
+[INFO ] Saving CSV data to 'output/neighbors_ext09.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances_ext09.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors_ext09.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris_ext09.csv' (1080x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.002315s
+[INFO ]   loading_data: 0.000944s
+[INFO ]   saving_data: 0.003164s
+[INFO ]   total_time: 0.003505s
+[INFO ]   tree_building: 0.000178s
+
+--------------------------------------------------------------------------------
+Split size: 0.8
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:30  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris_ext08.csv --neighbors_file output/neighbors_ext08.csv --distances_file output/distances_ext08.csv --verbose
+[INFO ] Using reference data from Loading 'input/iris_ext08.csv' as CSV data.  Size is 4 x 960.
+[INFO ] 'input/iris_ext08.csv' (960x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 23734 node combinations were scored.
+[INFO ] 76528 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances_ext08.csv'.
+[INFO ] Saving CSV data to 'output/neighbors_ext08.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances_ext08.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors_ext08.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris_ext08.csv' (960x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.001984s
+[INFO ]   loading_data: 0.000930s
+[INFO ]   saving_data: 0.002755s
+[INFO ]   total_time: 0.003156s
+[INFO ]   tree_building: 0.000169s
+
+--------------------------------------------------------------------------------
+Split size: 0.7
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:35  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris_ext07.csv --neighbors_file output/neighbors_ext07.csv --distances_file output/distances_ext07.csv --verbose
+[INFO ] Using reference data from Loading 'input/iris_ext07.csv' as CSV data.  Size is 4 x 840.
+[INFO ] 'input/iris_ext07.csv' (840x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 20125 node combinations were scored.
+[INFO ] 66741 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances_ext07.csv'.
+[INFO ] Saving CSV data to 'output/neighbors_ext07.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances_ext07.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors_ext07.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris_ext07.csv' (840x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.001770s
+[INFO ]   loading_data: 0.000886s
+[INFO ]   saving_data: 0.002592s
+[INFO ]   total_time: 0.002862s
+[INFO ]   tree_building: 0.000140s
+
+--------------------------------------------------------------------------------
+Split size: 0.6
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:39  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris_ext06.csv --neighbors_file output/neighbors_ext06.csv --distances_file output/distances_ext06.csv --verbose
+[INFO ] Using reference data from Loading 'input/iris_ext06.csv' as CSV data.  Size is 4 x 720.
+[INFO ] 'input/iris_ext06.csv' (720x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 14637 node combinations were scored.
+[INFO ] 54461 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances_ext06.csv'.
+[INFO ] Saving CSV data to 'output/neighbors_ext06.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances_ext06.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors_ext06.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris_ext06.csv' (720x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.001465s
+[INFO ]   loading_data: 0.000709s
+[INFO ]   saving_data: 0.002308s
+[INFO ]   total_time: 0.002370s
+[INFO ]   tree_building: 0.000129s
+
+--------------------------------------------------------------------------------
+Split size: 0.5
+--------------------------------------------------------------------------------
+
+╭─    ~/repository/sfsu/Fall2024/HPC/FA24-CSC746-Final/data/mlpack_data    main !3 ?6 ──────────────────────────────────────────── ✔  19:47:44  ─╮
+╰─ mlpack_knn --k 5 --reference_file input/iris_ext05.csv --neighbors_file output/neighbors_ext05.csv --distances_file output/distances_ext05.csv --verbose
+[INFO ] Using reference data from Loading 'input/iris_ext05.csv' as CSV data.  Size is 4 x 600.
+[INFO ] 'input/iris_ext05.csv' (600x4 matrix).
+[INFO ] Building reference tree...
+[INFO ] Tree built.
+[INFO ] Searching for 5 neighbors with dual-tree kd-tree search...
+[INFO ] 10419 node combinations were scored.
+[INFO ] 40449 base cases were calculated.
+[INFO ] Search complete.
+[INFO ] Saving CSV data to 'output/distances_ext05.csv'.
+[INFO ] Saving CSV data to 'output/neighbors_ext05.csv'.
+[INFO ]
+[INFO ] Execution parameters:
+[INFO ]   algorithm: dual_tree
+[INFO ]   distances_file: 'output/distances_ext05.csv' (0x0 matrix)
+[INFO ]   epsilon: 0
+[INFO ]   help: 0
+[INFO ]   info:
+[INFO ]   input_model_file:
+[INFO ]   k: 5
+[INFO ]   leaf_size: 20
+[INFO ]   neighbors_file: 'output/neighbors_ext05.csv' (0x0 matrix)
+[INFO ]   output_model_file:
+[INFO ]   query_file: ''
+[INFO ]   random_basis: 0
+[INFO ]   reference_file: 'input/iris_ext05.csv' (600x4 matrix)
+[INFO ]   rho: 0.7
+[INFO ]   seed: 0
+[INFO ]   tau: 0
+[INFO ]   tree_type: kd
+[INFO ]   true_distances_file: ''
+[INFO ]   true_neighbors_file: ''
+[INFO ]   verbose: 1
+[INFO ]   version: 0
+[INFO ] Program timers:
+[INFO ]   computing_neighbors: 0.001077s
+[INFO ]   loading_data: 0.000728s
+[INFO ]   saving_data: 0.001882s
+[INFO ]   total_time: 0.001970s
+[INFO ]   tree_building: 0.000091s
+

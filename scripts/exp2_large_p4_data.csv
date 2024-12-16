@@ -1,0 +1,6 @@
+# Split: 0.5 | Small vs Large dataset | P=4
+Thread,Elapsed time
+"T1",31.506
+"T2",31.497
+"T3",31.498
+"T4",31.493

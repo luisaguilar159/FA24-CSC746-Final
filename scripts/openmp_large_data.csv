@@ -1,0 +1,15 @@
+# Run 1 | Euclidean distance | Large dataset | Perlmutter | December 10th 2024 1:15am
+# Split size,Concurrency1,Concurrency4,Concurrency16,Concurrency64
+# 0.9 (129K),50.2994,13.2735,4.1863,1.4686
+# 0.8 (230K),89.3287,22.8064,6.5790,2.2196
+# 0.7 (302K),118.5451,29.9121,8.9819,3.0302
+# 0.6 (345K),134.0444,34.1387,9.9884,3.7566
+# 0.5 (360K),139.8904,36.1226,10.8352,3.8923
+
+# Run 2 | Euclidean distance | Large dataset | Perlmutter | December 14th 2024 00:30am
+Split size,Concurrency1,Concurrency4,Concurrency16,Concurrency64
+0.9 (129K),44.5358,11.5308,3.6611,1.5245
+0.8 (230K),78.9935,20.1567,5.9380,2.1757
+0.7 (302K),104.5149,26.3602,7.4125,2.8566
+0.6 (345K),118.9598,30.0850,8.8423,3.2869
+0.5 (360K),123.8147,31.5127,8.9134,3.2932
